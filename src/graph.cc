@@ -5,28 +5,15 @@ using namespace std;
 
 template <class T>;
 
-class Node {
-  public:
-    Node(int id, T value){
-      this->id = id;
-      this->value = value;
-    }
+struct node{
+   int id;
+   T value;
+   vector<edge> neighbors;
+};
 
-    int get_id(){
-      return this->id;
-    }
-
-    T get_value(){
-      return this->value;
-    }
-
-    void set_value(T value){
-      this->value = value;
-    }
-
-  private:
-    int id;
-    T value;
+struct edge {
+  int node_id;
+  int wheight;
 }
 
 class Graph {
@@ -44,19 +31,37 @@ class Graph {
     }
 
     bool adjacent (int x, int y){
-
+      for (Iter iter = this->adjacency_list[x]->neighbors.begin(); iter!=this->adjacency_list[x]->neighbors.end(); ++iter) {
+        if ((*iter)->node_id == y)
+          return true
+      }
+      return false
     }
 
-    vector<Node> neighbors (int x){
-      return
+    vector<int> neighbors (int x){
+
     }
 
     void add (int x, int y){
-
+      edge e1 = {y, 0};
+      edge e2 = {x, 0};
+      this->adjacency_list[x]->neighbors.push_back(e1)
+      this->adjacency_list[x]->neighbors.push_back(e2)
     }
 
     void delete (int x, int y){
-
+      for (Iter iter = this->adjacency_list[x]->neighbors.begin(); iter != this->adjacency_list[x]->neighbors.end();) {
+          if ((*iter)->node_id == y)
+            iter = this->adjacency_list[x]->neighbors.erase(iter);
+          else
+            ++iter;
+      }
+      for (Iter iter = this->adjacency_list[y]->neighbors.begin(); iter != this->adjacency_list[y]->neighbors.end();) {
+          if ((*iter)->node_id == x)
+            iter = this->adjacency_list[y]->neighbors.erase(iter);
+          else
+            ++iter;
+      }
     }
 
     T get_node_value (int x){
@@ -77,5 +82,5 @@ class Graph {
 
   private:
     int edges
-    vector<vector<int>> adjacency_list;
+    vector<node> adjacency_list;
 }
